@@ -1,5 +1,6 @@
 {
-  "name": "life/phpvalidation",
+  "name": "life996/phpvalidation",
+  "description": "phpvalidation",
   "autoload": {
     "psr-4": {
       "Life96\\PhpValidation\\": "src/"
