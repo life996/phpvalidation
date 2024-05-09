@@ -6,7 +6,7 @@
 需要php8.1及以上版本
 
 ```shell
-composer install 
+composer require life996/phpvalidation
 ```
 
 ### 快速使用
