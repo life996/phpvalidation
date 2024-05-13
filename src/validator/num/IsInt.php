@@ -12,8 +12,16 @@ class IsInt extends Validator
 
     public function verify($data): bool
     {
-        if (!is_int($data)) {
-            throw new ValidateException('Value not shaping', $this);
+        if (is_int($data)) {
+            return true;
+        }
+
+        if(!is_string($data)){
+            throw new ValidateException('Value not int', $this);
+        }
+
+        if (preg_match('/^\d+$/', $data) !== 1) {
+            throw new ValidateException('Value not int', $this);
         }
 
         return true;
