@@ -20,7 +20,7 @@ class InArray extends Validator
 
     public function verify($data): bool
     {
-        if (!in_array($data, $this->scope, true)) {
+        if (!in_array($data, $this->scope)) {
             throw new ValidateException('Values are not in the optional range', $this);
         }
 
