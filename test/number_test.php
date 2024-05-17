@@ -5,7 +5,7 @@ include_once '../vendor/autoload.php';
 use Life96\PhpValidation\Validators;
 use Life96\PhpValidation\ValidateException;
 
-$case1 = ['123', 123, '', 0e123, 1e11, null, 0.00, 0, '0.00', 1.55];
+$case1 = ['123', 123, '', 0e123, 1e11, null, 0.00, 0, '0.00', 1.55, '-1', -2];
 $case2 = ['2', 1, 10, 100, 1000, 123, 1e6, 1.1, 1.333, 0.123, -11];
 
 foreach ($case1 as $item) {

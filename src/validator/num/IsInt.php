@@ -20,7 +20,7 @@ class IsInt extends Validator
             throw new ValidateException('Value not int', $this);
         }
 
-        if (preg_match('/^\d+$/', $data) !== 1) {
+        if (preg_match('/^-?\d+$/', $data) !== 1) {
             throw new ValidateException('Value not int', $this);
         }
 
