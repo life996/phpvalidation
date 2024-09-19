@@ -19,7 +19,7 @@ $_GET = [
 ];
 
 $rules = [
-    'name' => vas::regex('/^\w{1,10}$/'),
+    'name' => vas::regex('/^\w{1,10}$/')->require(false),
     'age' => vas::number()->isInt()->between(12, 120),
     'desc' => vas::string()->length(0, 100),
     'phone' => vas::phone(),
@@ -31,7 +31,7 @@ $rules = [
 try {
 
     //根据rules key的顺序返回
-    list($name, $age, $desc, $phone, $email, $role, $position) = vat::verifyParams($_GET, $rules, false);
+    list($name, $age, $desc, $phone, $email, $role, $position) = vat::verifyParams($_GET, $rules);
 
     var_dump($name, $age, $desc, $phone, $email, $role, $position);
 

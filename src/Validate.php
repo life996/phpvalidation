@@ -9,6 +9,19 @@ class Validate
      */
     protected array $container = [];
 
+    protected bool $require = true;
+
+    public function require($require = true): Validate
+    {
+        $this->require = $require;
+        return $this;
+    }
+
+    public function getRequire($require = true): bool
+    {
+        return $this->require;
+    }
+
     public function __construct($init = [])
     {
         $this->container = $init;

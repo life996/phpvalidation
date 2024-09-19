@@ -8,7 +8,6 @@ class ValidateTools
      * 验证一组数据
      * @param $args array
      * @param $rules array<string, Validate>
-     * @param $require bool 为true=> 参数必须传入, 为false=> 结果可以为空
      * @return array
      * @throws ValidateArgumentException
      * @example
@@ -34,7 +33,7 @@ class ValidateTools
      * }
      * ```
      */
-    static public function verifyParams(array $args, array $rules, bool $require = true): array
+    static public function verifyParams(array $args, array $rules): array
     {
         $result = [];
 
@@ -45,7 +44,7 @@ class ValidateTools
                 continue;
             }
 
-            if(!$require){
+            if(!$r->getRequire()){
                 $result[] = null;
                 continue;
             }
