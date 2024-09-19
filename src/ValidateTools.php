@@ -8,10 +8,11 @@ class ValidateTools
      * 验证一组数据
      * @param $args array
      * @param $rules array<string, Validate>
+     * @param $require bool 为true=> 参数必须传入, 为false=> 结果可以为空
      * @return array
      * @throws ValidateArgumentException
      * @example
-     * ```
+     * ```code
      * $_GET = [
      *      'name' => 'life',
      *      'age' => 66,
@@ -33,17 +34,23 @@ class ValidateTools
      * }
      * ```
      */
-    static public function verifyParams(array $args, array $rules): array
+    static public function verifyParams(array $args, array $rules, bool $require = true): array
     {
         $result = [];
 
         foreach ($rules as $key => $r) {
-            if (!isset($args[$key])) {
-                throw new ValidateArgumentException(sprintf("Argument `%s` missing", $key), $key);
+            if (isset($args[$key])) {
+                $r->validate($args[$key]);
+                $result[] = $args[$key];
+                continue;
             }
 
-            $r->validate($args[$key]);
-            $result[] = $args[$key];
+            if(!$require){
+                $result[] = null;
+                continue;
+            }
+
+            throw new ValidateArgumentException(sprintf("Argument `%s` missing", $key), $key);
         }
 
         return $result;

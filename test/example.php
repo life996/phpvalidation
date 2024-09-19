@@ -8,7 +8,6 @@ use Life96\PhpValidation\ValidateTools as vat;
 use Life96\PhpValidation\ValidateException;
 
 $_GET = [
-    'name' => 'life',
     'age' => 66,
     'desc' => 'hello world!!',
     'phone' => '18000000000',
@@ -32,7 +31,7 @@ $rules = [
 try {
 
     //根据rules key的顺序返回
-    list($name, $age, $desc, $phone, $email, $role, $position) = vat::verifyParams($_GET, $rules);
+    list($name, $age, $desc, $phone, $email, $role, $position) = vat::verifyParams($_GET, $rules, false);
 
     var_dump($name, $age, $desc, $phone, $email, $role, $position);
 
