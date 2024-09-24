@@ -38,18 +38,34 @@ class ValidateTools
         $result = [];
 
         foreach ($rules as $key => $r) {
+            $rule_config = $r->getConfig();
+            $rule_error = $rule_config['error'];
+
             if (isset($args[$key])) {
-                $r->validate($args[$key]);
+                try {
+                    $r->validate($args[$key]);
+                } catch (ValidateException $e) {
+                    if (!$rule_error) {
+                        throw new ValidateArgumentException(sprintf("Invalid arguments `%s`", $key), -1, $key, $e);
+                    }
+
+                    throw $rule_error;
+                }
+
                 $result[] = $args[$key];
                 continue;
             }
 
-            if(!$r->getRequire()){
+            if (!$rule_config['require']) {
                 $result[] = null;
                 continue;
             }
 
-            throw new ValidateArgumentException(sprintf("Argument `%s` missing", $key), $key);
+            if (!$rule_error) {
+                throw new ValidateArgumentException(sprintf("Arguments `%s` missing", $key), -1, $key);
+            }
+
+            throw $rule_error;
         }
 
         return $result;

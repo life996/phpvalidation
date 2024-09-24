@@ -11,15 +11,27 @@ class Validate
 
     protected bool $require = true;
 
+    // 验证错误时的自定义返回
+    protected \Exception|null $error = null;
+
     public function require($require = true): Validate
     {
         $this->require = $require;
         return $this;
     }
 
-    public function getRequire($require = true): bool
+    public function error(\Exception $e): Validate
     {
-        return $this->require;
+        $this->error = $e;
+        return $this;
+    }
+
+    public function getConfig(): array
+    {
+        return [
+            'require' => $this->require,
+            'error' => $this->error,
+        ];
     }
 
     public function __construct($init = [])

@@ -8,6 +8,7 @@ use Life96\PhpValidation\ValidateTools as vat;
 use Life96\PhpValidation\ValidateException;
 
 $_GET = [
+    'name' => '1232132312313214',
     'age' => 66,
     'desc' => 'hello world!!',
     'phone' => '18000000000',
@@ -19,13 +20,13 @@ $_GET = [
 ];
 
 $rules = [
-    'name' => vas::regex('/^\w{1,10}$/')->require(false),
-    'age' => vas::number()->isInt()->between(12, 120),
-    'desc' => vas::string()->length(0, 100),
-    'phone' => vas::phone(),
-    'email' => vas::email(),
-    'role' => vas::array()->maxCount(100),
-    'position' => vas::string()->inArray(['PM', 'employee']),
+    'name' => vas::regex('/^\w{1,10}$/')->require(false)->error(new \Exception('name error', 999)),
+    'age' => vas::number()->isInt()->between(12, 120)->error(new \Exception('age error', 999)),
+    'desc' => vas::string()->length(0, 100)->error(new \Exception('desc error', 999)),
+    'phone' => vas::phone()->error(new \Exception('phone error', 999)),
+    'email' => vas::email()->error(new \Exception('email error', 999)),
+    'role' => vas::array()->maxCount(100)->error(new \Exception('role error', 999)),
+    'position' => vas::string()->inArray(['PM', 'employee'])->error(new \Exception('position error', 999)),
 ];
 
 try {
@@ -36,7 +37,12 @@ try {
     var_dump($name, $age, $desc, $phone, $email, $role, $position);
 
 } catch (ValidateArgumentException $e) {
-    printf("require: %s, err: %s", $e->getArgument(), $e->getMessage());
-} catch (ValidateException $e) {
-    printf("validator: %s, msg: %s\n", $e->getValidator()->name, $e->getMessage());
+    printf("argument: %s, err: %s\n", $e->getArgument(), $e->getMessage());
+
+    //查询参数错误在哪个环节
+    printf("validator name: %s\n", $e->getValidateException()->getValidator()->name);
+
+} catch (Exception $e) {
+    //设置->error后会抛出对应的异常, 如果未设置error则验证失败时会抛出ValidateArgumentException
+    printf("msg: %s\n", $e->getMessage());
 }
